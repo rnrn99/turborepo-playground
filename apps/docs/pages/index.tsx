@@ -2,6 +2,8 @@ import { Button } from "ui";
 import axios from "axios";
 import { testFunc } from "utils";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useRef } from "react";
+import { useObserver } from "../hook/useObserver";
 
 const getPokemonList = async (pageParams: number) => {
   const { data } = await axios.get<any>("https://pokeapi.co/api/v2/pokemon", {
@@ -14,14 +16,20 @@ const getPokemonList = async (pageParams: number) => {
 };
 
 export default function Docs() {
-  const { data, fetchNextPage, hasNextPage, hasPreviousPage } =
-    useInfiniteQuery({
-      queryKey: ["pokemon"],
-      queryFn: ({ pageParam = 5 }) => getPokemonList(pageParam),
-      getNextPageParam: (lastPage, allPages) => {
-        return Number(new URL(lastPage.next).searchParams.get("offset"));
-      },
-    });
+  const pageEnd = useRef(null);
+
+  const { data, fetchNextPage } = useInfiniteQuery({
+    queryKey: ["pokemon"],
+    queryFn: ({ pageParam = 5 }) => getPokemonList(pageParam),
+    getNextPageParam: (lastPage, allPages) => {
+      return Number(new URL(lastPage.next).searchParams.get("offset"));
+    },
+  });
+
+  useObserver({
+    target: pageEnd,
+    fetchNextPage,
+  });
 
   return (
     <div>
@@ -44,7 +52,7 @@ export default function Docs() {
           ))}
         </div>
       ))}
-      <button onClick={() => fetchNextPage()}>로딩</button>
+      <div ref={pageEnd} />
     </div>
   );
 }
