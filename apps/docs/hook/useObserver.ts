@@ -6,6 +6,7 @@ export const useObserver = ({
   root = null,
   rootMargin = "0px",
   threshold = 1.0,
+  deps,
 }: any) => {
   useEffect(() => {
     let observer: IntersectionObserver;
@@ -22,5 +23,5 @@ export const useObserver = ({
       observer.observe(target.current);
     }
     return () => observer && observer.disconnect();
-  }, [target]);
+  }, [target, deps]);
 };
