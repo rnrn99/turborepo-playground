@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { atom, useAtom } from "jotai";
@@ -23,7 +23,7 @@ export default function Test() {
 
   useEffect(() => {
     setPokemon(results);
-  }, [results]);
+  }, [results, setPokemon]);
 
   return (
     <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
@@ -35,7 +35,7 @@ export default function Test() {
             height: "100px",
             border: "1px solid red",
           }}
-          onClick={() => router.push(`/scroll2?offset=${index}`)}
+          onClick={() => router.push(`/scroll/example2/detail?offset=${index}`)}
         >
           {name}
         </div>

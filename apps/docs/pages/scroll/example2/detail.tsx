@@ -1,9 +1,9 @@
 import { GetServerSideProps } from "next";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import useMount from "../hook/useMount";
-import { useObserver } from "../hook/useObserver";
-import { getPokemonList } from "./scroll";
+import useMount from "../../../hook/useMount";
+import { useObserver } from "../../../hook/useObserver";
+import { getPokemonList } from ".";
 
 const scrollToList = (element: HTMLDivElement) => {
   element.scrollIntoView(true);
