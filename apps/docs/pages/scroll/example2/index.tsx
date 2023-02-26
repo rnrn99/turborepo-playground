@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { atom, useAtom } from "jotai";
-import { useQuery } from "@tanstack/react-query";
+import { usePokemonQuery } from "queries";
 
 export const getPokemonList = async () => {
   const { data } = await axios.get<any>("https://pokeapi.co/api/v2/pokemon", {
@@ -17,7 +17,7 @@ export const getPokemonList = async () => {
 export const pokemonAtom = atom([]);
 
 export default function Test() {
-  const { data: results } = useQuery(["pokemon"], () => getPokemonList());
+  const { data: results } = usePokemonQuery();
   const [pokemon, setPokemon] = useAtom(pokemonAtom);
   const router = useRouter();
 
